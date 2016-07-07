@@ -1,0 +1,18 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# 忽略开发环境文件
+/.idea/*
+
+# 忽略数据库配置
+/Application/Common/Conf/db.php
+
+# 忽略运行时文件
+/Application/Runtime/*
+
+
+
+
+
+
+
+

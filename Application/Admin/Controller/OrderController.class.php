@@ -13,6 +13,8 @@ use Think\Controller;
 
 class OrderController extends Controller{
     public function orderList(){
+        $orderList = M("order")->select();
+        $this->assign("orderList", $orderList);
         $this->display('orderList');
     }
 }

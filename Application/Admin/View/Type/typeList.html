@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随喜类型列表</title>
+</head>
+<body>
+<div class="container">
+    <h1>随喜类型</h1>
+    <a class="btn btn-default pull-right" href="{:U('Type/addType')}">添加类型</a>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="text-center">类型名称</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <foreach name="typeList" item="type">
+                <tr>
+                    <td class="text-center" style="font-size:20px;">{$type.name}</td>
+                    <td class="text-center"><a class="btn btn-default" href="{:U('Type/modifyType',array( 'id'=> $type['id'] ))}">编辑</a></td>
+                </tr>
+            </foreach>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

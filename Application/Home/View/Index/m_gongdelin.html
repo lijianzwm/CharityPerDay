@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>日行一善</title>
+    <link rel="stylesheet" href="__PUBLIC__/frozenui/css/frozen.css">
+    <link rel="stylesheet" href="__PUBLIC__/frozenui/css/yishan.css">
+</head>
+
+<body ontouchstart="">
+<header class="ui-header ui-header-yishan ui-border-b">
+    <h1>日行一善功德查询</h1>
+</header>
+
+<section class="ui-container">
+    <table class="ui-table ui-border">
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>金额</th>
+            <th>用途</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="orderList" item="order">
+            <if condition="$order['isPayOK'] eq 1" >
+                <tr>
+                    <td>{$order.name}</td>
+            <else/>
+                <tr style='color:red'>
+                    <td>
+                        {$order.name}
+                        <div>(支付失败)</div>
+                    </td>
+            </if>
+                <td>{$order.money}</td>
+                <td>{$order.type_name}</td>
+                <td>{$order.r_time}</td>
+                <td>
+                    <button class="ui-btn-s" style="color:black;" onclick="toDetail('{$order.id}')">
+                        详情
+                    </button>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</section>
+<script>
+    function toDetail(id){
+        window.location.href= "{:U('Index/orderDetail')}"+"?id="+id;
+    }
+</script>
+</body>
+</html>

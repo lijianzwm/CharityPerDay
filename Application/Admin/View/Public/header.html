@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css">
+    <script src="__PUBLIC__/jquery/jquery-3.0.0.min.js" ></script>
+    <script src="__PUBLIC__/bootstrap/js/bootstrap.min.js" ></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">后台管理</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" id="nav_tabs">
+                    <li id="type_tab" ><a href="{:U('Type/typeList')}" onclick="switchTab('type_tab')">类型管理</a></li>
+                    <li id="order_tab" ><a href="{:U('Goods/goodsList')}" onclick="switchTab('order_tab')">订单管理</a></li>
+                    <li id="income_tab" ><a href="{:U('Goods/goodsList')}" onclick="switchTab('income_tab')">收入统计</a></li>
+                    <li id="report_tab" ><a href="{:U('Goods/goodsList')}" onclick="switchTab('report_tab')">账目简报</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</div>
+</body>
+</html>

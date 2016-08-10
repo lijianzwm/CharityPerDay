@@ -6,6 +6,9 @@
 # 忽略数据库配置
 /Application/Common/Conf/db.php
 
+# 忽略微信支付配置
+/Application/Common/Conf/weixin.php
+
 # 忽略运行时文件
 /Application/Runtime/*
 

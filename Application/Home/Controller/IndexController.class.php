@@ -9,10 +9,60 @@ class IndexController extends Controller {
         $this->display("m_index");
     }
 
-    public function yishan(){
+    /**
+     * 授权获取用户信息
+     */
+    public function authority(){
+        //获取code
+        $code = I("code");
+        if( !$code ){
+            $baseUrl = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']);
+            $urlObj["appid"] = C("WX_APPID");
+            $urlObj["redirect_uri"] = "$baseUrl";
+            $urlObj["response_type"] = "code";
+            $urlObj["scope"] = "snsapi_userinfo";
+            $urlObj["state"] = "STATE"."#wechat_redirect";
+            $bizString = "";
+            foreach ($urlObj as $k => $v){
+                if($k != "sign"){
+                    $bizString .= $k . "=" . $v . "&";
+                }
+            }
+            $bizString = trim($bizString, "&");
+            $url = C("WX_AUTHORIZE_URL")."?".$bizString;
+            Header("Location: $url");
+            exit();
+        }else{
+            //通过授权来获取用户信息
+            $userinfo = WxService::getUserInfo($code);
+            if( isset($userinfo['errcode'])){
+                redirect(U("Index/index"));
+            }
+            $openid = $userinfo['openid'];
+            $nickname = $userinfo['nickname'];
+            redirect(U("Index/suixi", array('openid'=>$openid, 'nickname'=>$nickname)));
+        }
+    }
+
+    /**
+     * 随喜页面
+     */
+    public function suixi(){
+        $openid = I("openid");
+        $nickname = I("nickname");
+        if ($openid && $nickname) {
+            $this->assign("openid", $openid);
+            $this->assign("nickname", $nickname);
+            $this->display("suixi");
+        }else{
+            redirect(U("Index/authority"));
+        }
 
     }
 
+    /**
+     * 功德林
+     */
     public function gongdelin(){
 
         $itemNumPerPage = C("ITEM_PER_PAGE");
@@ -28,7 +78,6 @@ class IndexController extends Controller {
             }else{
                 $orderList[$i]['isPayOK'] = 0;
             }
-
             $createdTime = $orderList[$i]['create_time'];
             $currentTime = time();
             $dis = $currentTime - $createdTime;
@@ -45,15 +94,14 @@ class IndexController extends Controller {
             }else if( $day >= 1 ){
                 $rTime = $day . "天前";
             }
-
             $orderList[$i]['r_time'] = $rTime;
-
         }
 
         $this->assign('page', $show);// 赋值分页输出
         $this->assign('orderList', $orderList);
         $this->display("m_gongdelin");
-        
     }
+
+
 
 }

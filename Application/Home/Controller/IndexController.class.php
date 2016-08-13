@@ -51,12 +51,31 @@ class IndexController extends Controller {
         $openid = I("openid");
         $nickname = I("nickname");
         if ($openid && $nickname) {
+            //获取随喜项目信息
+            $typeList = M("type")->select();
+            $this->assign("typeList", $typeList);
             $this->assign("openid", $openid);
             $this->assign("nickname", $nickname);
-            $this->display("suixi");
+            $this->display("m_suixi");
         }else{
             redirect(U("Index/authority"));
         }
+    }
+
+    /**
+     * 确认订单
+     */
+    public function confirm(){
+        $typeName = I("type_name");
+        $typeId = I("type_id");
+        $money = I("money");
+        $name = I("name");
+        $huixiang = I("huixiang") ? I("huixiang") : "回向一切众生离苦得乐,究竟成佛";
+        $gongbu = I("gongbu");
+        $openid = I("openid");
+        $payment = I("payment");
+
+        $this->assign("m_confirm");
 
     }
 

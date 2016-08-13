@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>日行一善</title>
+</head>
+<body ontouchstart="">
+<header class="ui-header ui-header-yishan ui-border-b">
+    <h1>日行一善</h1>
+</header>
+
+<section class="ui-container">
+    <section id="tab">
+        <div class="demo-item">
+            <div class="demo-block">
+                <div class="ui-tab">
+                    <ul class="ui-tab-nav ui-border-b">
+                        <li class="current">活动主旨</li>
+                        <li>活动方式</li>
+                        <li>善款用途</li>
+                    </ul>
+                    <ul class="ui-tab-content" style="width:300%">
+                        <li>
+                            <div style="padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px;">
+                                <p class="ui-txt-justify">
+                                    “日行一善”活动主旨在于为广大佛子提供一个行善的机会，并且将这一善行贯穿在我们每日的生活之中，
+                                    “日行一善”首重菩提心的发起，因菩提心是修行之缘起，成就之根本，唯有发起广大无伪的菩提心，
+                                    才能成就我们日益增长的道业。
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px;">
+                                <p class="ui-txt-justify">
+                                    “日行一善”活动的主要方式，是以每日贡献1元的方式，引发内心的菩提心，
+                                    每天有一个助僧、助人、助众生的愿望，并将这一愿望在我们生活中扩大，以扩大我们的心量。
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px;">
+                                <p class="ui-txt-justify">
+                                    “日行一善”的所有善款将用于供助僧、助人、助众生等用途，当善款用于某一用途时，会随缘对该活动进行报道。
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <script class="demo-script">
+
+            </script>
+        </div>
+    </section>
+
+    <div class="ui-form ui-border-t">
+        <form action="{:U('Index/confirm')}" method="get" id="form">
+            <input type="hidden" name="order_no" value="<?php echo $order_no; ?>"/>
+            <input type="hidden" name="payment" value="<?php echo $payment; ?>"/>
+            <input type="hidden" name="openid" value="<?php echo $openid; ?>"/>
+            <section class="ui-panel ui-panel-pure ui-border-t">
+                <div class="ui-form-item ui-border-b">
+                    <label><strong>选择用途：</strong></label>
+                    <div class="ui-select">
+                        <input type="hidden" name="type_name" id="item_name" />
+                        <select name="type_id" id="item">
+                            <foreach name="typeList" item="type">
+                                <option value="{$type.id}">{$type.name}</option>
+                            </foreach>
+                        </select>
+                    </div>
+                </div>
+                <div class="ui-form-item ui-border-b">
+                    <label><strong>选择金额：</strong></label>
+                    <input type="hidden" name="money" id="money" value="1"/>
+                    <div class="ui-select">
+                        <select id="money_selector" onchange="fillMoney()">
+                            <option value="1" selected>1元</option>
+                            <option value="2">2元</option>
+                            <option value="5">5元</option>
+                            <option value="10">10元</option>
+                            <option value="20">20元</option>
+                            <option value="50">50元</option>
+                            <option value="100">100元</option>
+                            <option value="diy">自定义金额</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ui-form-item ui-border-b" id="diy_money_div" style="display:none;">
+
+                    <label>
+                        <strong>金额：</strong>
+                    </label>
+                    <input type="text" name="t_money" id="t_money" placeholder="请输入金额...">
+                </div>
+                <div class="ui-form-item ui-border-b">
+                    <label>
+                        <strong>姓名：</strong>
+                    </label>
+                    <input type="text" name="name" id="name" placeholder="<?php echo $nickname;?>">
+                </div>
+                <div class="ui-form-item ui-form-item-textarea ui-border-b">
+                    <label>
+                        <strong>回向：</strong>
+                    </label>
+                    <textarea id="huixiang" name="huixiang" placeholder="愿一切众生离苦得乐,究竟成佛"></textarea>
+                </div>
+                <div class="ui-form-item ui-form-item-switch ui-border-b">
+                    <p id="gongkai_text" >是否公开:&nbsp;<strong>公开</strong></p>
+                    <p id="baomi_text" style="display:none;">是否公开:&nbsp;<strong>保密</strong></p>
+                    <label class="ui-switch">
+                        <input type="checkbox" name="gongbu" onclick="gkToggle()" checked="checked" />
+                    </label>
+                </div>
+            </section>
+        </form>
+    </div>
+    <div class="ui-btn-wrap">
+        <button class="ui-btn-lg ui-btn-danger" onclick="confirmOrder()">
+            提交
+        </button>
+    </div>
+</section>
+
+<!--<script src="./js/jquery.min.js"></script>-->
+<script src="./js/zepto.min.js"></script>
+<script src="./js/frozen.js"></script>
+<script>
+
+    (function (){
+        var tab = new fz.Scroll('.ui-tab', {
+            role: 'tab',
+            autoplay: false
+        });
+        /* 滑动开始前 */
+        tab.on('beforeScrollStart', function(fromIndex, toIndex) {
+            console.log(fromIndex,toIndex);// from 为当前页，to 为下一页
+        })
+    })();
+
+    function confirmOrder(){
+        name = $("#name").val();
+        name = name.trim();
+        if( name == "" ){
+            name = '<?php echo $nickname?>';
+        }else{
+            name = $("#name").val();
+        }
+        name = name.replace( /[^(a-zA-Z0-9\u4e00-\u9fa5)]/g, "");//只留下数字英文和中文,滤掉其他字符
+        if( name == "" ){
+            alert("请输入姓名,姓名中不能包含特殊字符!");
+            return;
+        }
+        $('#name').val(name);
+        if( $("#huixiang").val() == "" ){
+            huixiang = "愿一切众生离苦得乐,究竟成佛";
+        }else{
+            huixiang  = $("#huixiang").val();
+            huixiang = huixiang.replace( /[^(，！。,!.a-zA-Z0-9\u4e00-\u9fa5)]/g, "");
+        }
+
+        //在隐藏域中填入自定义money,过滤掉校验合法字符
+        var money = $("#money_selector option").eq($("#money_selector").attr("selectedIndex")).val();
+        if( money == "diy" ){
+            var t_money = $("#t_money").val().trim();
+            if( t_money == "" || !t_money.match(/^[0-9]*$/) || parseInt(t_money) <= 0 ){
+                alert("金额只能为大于0的整数!");
+                return;
+            }
+            $("#money").val(t_money);
+        }
+        $('#huixiang').val(huixiang);
+        $("#item_name").val($("#item option").eq($("#item").attr("selectedIndex")).text());
+        $("#form").submit();
+    }
+
+    function gkToggle(){
+        $("#gongkai_text").toggle();
+        $("#baomi_text").toggle();
+    }
+
+    function fillMoney(){
+        var money = $("#money_selector option").eq($("#money_selector").attr("selectedIndex")).val();
+        if( money == "diy"){
+            $("#diy_money_div").show();
+            $("#money").val("");
+        }else{
+            $("#diy_money_div").hide();
+            $("#money").val(money);
+        }
+    }
+
+</script>
+</body>
+</html>

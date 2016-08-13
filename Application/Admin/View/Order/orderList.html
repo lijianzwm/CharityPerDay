@@ -18,10 +18,10 @@
         </tr>
         </thead>
         <tbody>
-        <foreach name="typeList" item="type">
+        <foreach name="orderList" item="order">
             <tr>
-                <td class="text-center" style="font-size:20px;">{$type.name}</td>
-                <td class="text-center"><a class="btn btn-default" href="{:U('Type/modifyType',array( 'id'=> $type['id'] ))}">编辑</a></td>
+                <td class="text-center" style="font-size:20px;">{$order.name}</td>
+                <td class="text-center"><a class="btn btn-default" href="{:U('Type/modifyType',array( 'id'=> $type['id'] ))}">详情</a></td>
             </tr>
         </foreach>
         </tbody>
